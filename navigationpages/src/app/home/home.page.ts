@@ -6,9 +6,13 @@ import {
   IonContent,
   IonItem,
   IonButton,
+  IonButtons,
+  IonModal,
 } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
-import {NavController} from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { Page2Page } from '../page2/page2.page';
 
 @Component({
   selector: 'app-home',
@@ -21,16 +25,34 @@ import {NavController} from '@ionic/angular';
     IonContent,
     IonItem,
     IonButton,
-    FormsModule
-],
+    IonButtons,
+    FormsModule,
+    IonModal,
+  ],
 })
 export class HomePage {
+  isModalOpen = true;
   constructor(
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private router: Router,
+    private modalCtrl: ModalController
   ) {}
   GoPage2_NC() {
     this.navCtrl.navigateForward('/page2');
   }
- 
-  GoPage2_R() {}
+
+  GoPage2_R() {
+    this.router.navigate(['/page2']);
+  }
+
+  async loadModal() {
+    const modal = await this.modalCtrl.create({
+      component: Page2Page,
+    });
+    return await modal.present();
+  }
+
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
 }
