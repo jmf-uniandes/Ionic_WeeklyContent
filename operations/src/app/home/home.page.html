@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title> Operacion en Ionic </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-item>
+    <ion-label position="stacked">
+      <h1>Ingrese los valores en cada campo</h1>
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-item>
+      <ion-input label="Number 1:" type="number" [(ngModel)]="txtNumber1"></ion-input>
+    </ion-item>
+  </ion-item>
+  <ion-item>
+    <ion-input label="Number 2:" type="number" [(ngModel)]="txtNumber2"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-button size="small" color="primary" (click)="f_add()">Sumar</ion-button>
+    <ion-button size="small" color="primary" (click)="f_subtract()">Restar</ion-button>
+    <ion-button size="small" color="primary" (click)="f_multiply()">Multiplicar</ion-button>
+    <ion-button size="small" color="primary" (click)="f_divide()">Dividir</ion-button>
+  </ion-item>
+   <ion-item>
+    <ion-label>Resultado:</ion-label>
+    <ion-label>{{txtResult}}</ion-label>
+  </ion-item>
+  
+</ion-content>

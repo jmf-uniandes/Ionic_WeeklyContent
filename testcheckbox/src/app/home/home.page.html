@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Blank
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+
+  <!-- Lista de Casillas de Verificación -->
+  <ion-list>
+    <!-- Recorre la lista con *ngFor -->
+    <ion-item *ngFor="let unit of unitsOfTemperature; let i = index">
+      <!-- Checkbox con enlace a unit.checked -->
+      <ion-checkbox 
+        slot="start" 
+        [(ngModel)]="unit.checked" 
+        (ionChange)="onCheckboxChange(i, $event)">
+      </ion-checkbox>
+      <!-- Etiqueta con el nombre de la unidad -->
+      <ion-label>{{ unit.name }}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  
+ 
+</ion-content>

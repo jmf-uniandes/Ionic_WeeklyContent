@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Listas
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item *ngFor="let n of numeros" (click)="showItem(n)">
+      <ion-label>{{n}}</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-card>
+    Usted selecciono:
+    <ion-label>{{Message2User}}</ion-label>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Card Title</ion-card-title>
+      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      Here's a small text description for the card content. Nothing more, nothing less.
+      <ion-label>{{Message2User}}</ion-label>
+    </ion-card-content>
+  </ion-card>
+  
+
+</ion-content>
