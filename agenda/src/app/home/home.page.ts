@@ -60,7 +60,7 @@ export class HomePage {
       this.msgWS=res.data.correo_persona.toString();
 
       if (res.success) {
-        this.servicio.showToast(res.msg, 2000);
+        this.servicio.showToast("conexion satisfactoria", 2000);
         this.servicio.createSession('usuario', res.data.ci_persona);
         this.servicio.createSession('nombre', res.data.nom_persona);
          this.servicio.createSession('correo', res.data.correo_persona);
