@@ -2,22 +2,33 @@ import { Injectable } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { Preferences } from '@capacitor/preferences';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccesoService {
-  server: string = 'http://localhost//WSAgenda/agenda.php';
+  server: string =
+    'http://localhost/WS_AG2425/controllers/persona.controller.php?';
   constructor(public ToastCtrl: ToastController, public http: HttpClient) {}
 
-  postData(body: any) {
+   async postData(body: any) {
     let head = new HttpHeaders({
-      'Content-Type': 'application/json, charset:utf8',
+      'Content-Type': 'application/json; charset=utf-8',
     });
-    let options ={
-      headers:head
+    let options = {
+      headers: head,
+    };
+    
+    try {
+      const response = await firstValueFrom(
+        this.http.post(this.server, JSON.stringify(body), options)
+      );
+      //console.log('Respuesta Servidor JM:', JSON.stringify(response));
+      return response;
+    } catch (error) {
+      return error;
     }
-    return this.http.post(this.server, JSON.stringify(body), options);
   }
 
   async showToast(msg: string, showtime: number) {

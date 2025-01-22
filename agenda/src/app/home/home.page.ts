@@ -43,38 +43,35 @@ AccesoService;
 export class HomePage {
   txt_usuario: string = '';
   txt_clave: string = '';
+  msgWS: string='';
   constructor(
     private loadingCtrl: LoadingController,
     private servicio: AccesoService
   ) {}
 
-  login() {
+  async login() {
     let datos = {
-      accion: 'login',
-      usuario: this.txt_usuario,
-      clave: this.txt_clave,
+      op: 'login',
+      cod_persona: this.txt_usuario,
+      clave_persona: this.txt_clave,
     };
-    this.servicio.postData(datos).subscribe(
-      (res: any) => {
-        //   if(response['success']==true){
-        //     this.servicio.showToast(response['msg'],2000);
-        //     this.servicio.createSession('usuario',response['usuario']);
-        //     this.servicio.createSession('nombre',response['nombre']);
-        //     this.servicio.createSession('correo',response['correo']);
-        //   }else{
-        //     this.servicio.showToast(response['msg'],2000);
-        //   }
-        if (res.estado) {
-          this.servicio.showToast('Encontro persona', 3000);
-        } else {
-          this.servicio.showToast('No existe persona', 3000);
-        }
-      },
-      (error) => {
-        console.log(error);
+    try {
+      const res: any = await this.servicio.postData(datos);
+      this.msgWS=res.data.correo_persona.toString();
+
+      if (res.success) {
+        this.servicio.showToast(res.msg, 2000);
+        this.servicio.createSession('usuario', res.data.ci_persona);
+        this.servicio.createSession('nombre', res.data.nom_persona);
+         this.servicio.createSession('correo', res.data.correo_persona);
+      } else {
+        this.servicio.showToast(res.msg, 2000);
       }
-    );
+    } catch (error) {
+      console.log(error);
+    }
   }
+
   createUser() {}
   recoverPassword() {}
   async showLoading() {
