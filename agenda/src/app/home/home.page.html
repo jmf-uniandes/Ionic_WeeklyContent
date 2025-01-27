@@ -10,20 +10,23 @@
       <ion-label class="titulo">Welcome</ion-label>
     </ion-item>
     <ion-item>
-      <img src="assets/img/agendaIcon.png" style="
+      <img
+        src="assets/img/agendaIcon.png"
+        style="
           display: block;
-          width: 20%;
+          width: 15%;
           height: auto;
           margin-left: auto;
           margin-right: auto;
-        " />
+        "
+      />
     </ion-item>
     <ion-item>
-      <ion-label class="etiqueta">Agenda Electronica</ion-label>
+      <ion-label class="etiqueta">Digital Agenda</ion-label>
     </ion-item>
     <ion-card color="light">
       <ion-card-header>
-        <ion-card-title class="etiqueta">Menu Sign-in</ion-card-title>
+        <ion-card-title class="etiqueta">Sign-in</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
@@ -36,18 +39,25 @@
           <ion-input type="password" [(ngModel)]="txt_clave"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-button id="open-loading" expand="block" color="success" (click)="login()">
+          <ion-button
+            id="open-loading"
+            expand="block"
+            color="success"
+            (click)="login()"
+          >
             Sign-in
           </ion-button>
         </ion-item>
         <ion-item>
           <table>
             <tr>
-              <td>
+              <td style="padding-right: 40px;">
                 <span class="opciones" (click)="createUser()">Sign-up</span>
               </td>
               <td>
-                <span class="opciones" (click)="recoverPassword()">Forgot password</span>
+                <span class="opciones" (click)="recoverPassword()"
+                  >Forgot password</span
+                >
               </td>
             </tr>
           </table>
@@ -55,7 +65,11 @@
       </ion-card-content>
     </ion-card>
     <!-- <ion-button id="open-loading">Show Loading</ion-button> -->
-    <ion-loading trigger="open-loading" message="loading..." duration="3000"></ion-loading>
+    <ion-loading
+      trigger="open-loading"
+      message="loading..."
+      duration="3000"
+    ></ion-loading>
 
     <ion-item>
       <ion-label>Respuesta del servidor:</ion-label>

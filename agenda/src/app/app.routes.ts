@@ -21,5 +21,9 @@ export const routes: Routes = [
   {
     path: 'recoverypass',
     loadComponent: () => import('./recoverypass/recoverypass.page').then( m => m.RecoverypassPage)
+  },  {
+    path: 'edit-profile',
+    loadComponent: () => import('./edit-profile/edit-profile.page').then( m => m.EditProfilePage)
   },
+
 ];

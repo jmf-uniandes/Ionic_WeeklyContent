@@ -11,7 +11,14 @@ import {
   IonMenuButton,
   IonLabel,
   IonItem,
+  IonButton,
+  NavController
 } from '@ionic/angular/standalone';
+import { AccesoService } from '../servicios/acceso.service';
+
+
+
+
 
 @Component({
   selector: 'app-menu',
@@ -30,11 +37,26 @@ import {
     IonMenuButton,
     IonLabel,
     IonItem,
+    IonMenu,
+    IonButton
   ],
 })
+
+
+
 export class MenuPage implements OnInit {
   user_name: string = '';
-  constructor() {}
+  constructor(protected servicio: AccesoService,
+     private navCtrl: NavController
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.servicio.getSession('nombre').then(res => {
+      this.user_name = res || 'Usuario desconocido'; // Valor predeterminado
+    });
+  }
+  
+  returnToHome(){
+     this.navCtrl.navigateBack('/home');
+  }
 }

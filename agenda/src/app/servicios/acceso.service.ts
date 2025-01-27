@@ -12,19 +12,19 @@ export class AccesoService {
     'http://localhost/WS_AG2425/controllers/persona.controller.php?';
   constructor(public ToastCtrl: ToastController, public http: HttpClient) {}
 
-   async postData(body: any) {
+  async postData(body: any) {
     let head = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
     });
     let options = {
       headers: head,
     };
-    
+
     try {
       const response = await firstValueFrom(
         this.http.post(this.server, JSON.stringify(body), options)
       );
-      //console.log('Respuesta Servidor JM:', JSON.stringify(response));
+      console.log('Respuesta Servidor JM:', JSON.stringify(response));
       return response;
     } catch (error) {
       return error;
@@ -44,10 +44,12 @@ export class AccesoService {
     await Preferences.set({ key: id, value: valor });
   }
 
-  async getSession(id: string) {
+  async getSession(id: string): Promise<string | null> {
     const { value } = await Preferences.get({ key: id });
-    return value;
+    console.log('value service: ' + value);
+    return value ? value.toString() : null; 
   }
+  
 
   async removeSession(id: string) {
     await Preferences.remove({ key: id });
