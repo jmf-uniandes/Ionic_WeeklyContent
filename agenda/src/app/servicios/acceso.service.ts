@@ -51,6 +51,23 @@ export class AccesoService {
   }
   
 
+async updateSession(id: string, valor: string) {
+  await Preferences.set({ key: id, value: valor });
+}
+
+
+async getInfoUserSession() {
+  const data = {
+    identificationUser: await this.getSession('identificationUser'),
+    nameUser: await this.getSession('nameUser'),
+    surenameUser: await this.getSession('surenameUser'),
+    emailUser: await this.getSession('emailUser'),
+    passwordUser: await this.getSession('passwordUser')
+  };
+  return data;
+}
+
+
   async removeSession(id: string) {
     await Preferences.remove({ key: id });
   }

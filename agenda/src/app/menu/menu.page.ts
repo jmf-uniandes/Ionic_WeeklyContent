@@ -51,12 +51,16 @@ export class MenuPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.servicio.getSession('nombre').then(res => {
+    this.servicio.getSession('nameUser').then(res => {
       this.user_name = res || 'Usuario desconocido'; // Valor predeterminado
     });
   }
   
   returnToHome(){
      this.navCtrl.navigateBack('/home');
+     this.servicio.clearSession();
+  }
+  gotoEditProfile(){
+    this.navCtrl.navigateForward('/edit-profile');
   }
 }

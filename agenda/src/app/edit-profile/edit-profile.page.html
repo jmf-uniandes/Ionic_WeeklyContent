@@ -10,28 +10,28 @@
 
 <ion-content [fullscreen]="true">
   <ion-item>
-    <ion-note slot="start">Identification Number: </ion-note>
-    <ion-label>Label</ion-label>
+    <ion-note class="note-text"  slot="start">Identification Number: </ion-note>
+    <ion-label  class="label-background">{{identificationUser}}</ion-label>
   </ion-item>
 
   <!-- Data -->
   <ion-item>
-    <ion-note slot="start">Name: </ion-note>
+    <ion-note class="note-text" slot="start">Name: </ion-note>
     <ion-input type="text" [(ngModel)]="inputName"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-note slot="start">Surename: </ion-note>
+    <ion-note class="note-text" slot="start">Surename: </ion-note>
     <ion-input type="text" [(ngModel)]="inputSurename"> </ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-note slot="start">email: </ion-note>
+    <ion-note class="note-text" slot="start">email: </ion-note>
     <ion-input type="text" [(ngModel)]="inputEmail"> </ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-note slot="start">Password: </ion-note>
+    <ion-note class="note-text" slot="start">Password: </ion-note>
     <ion-input
       type="password"
       [(ngModel)]="inputPassword"
@@ -41,7 +41,7 @@
   </ion-item>
 
   <ion-item>
-    <ion-note slot="start">Confirm Password: </ion-note>
+    <ion-note class="note-text" slot="start">Confirm Password: </ion-note>
     <ion-input
       type="password"
       [(ngModel)]="inputCPassword"
@@ -53,7 +53,7 @@
     <ion-button
       class="secondary"
       expand="block"
-      (click)="Cancel()"
+      (click)="cancel()"
       style="margin-right: 15px"
       >Cancel</ion-button
     >

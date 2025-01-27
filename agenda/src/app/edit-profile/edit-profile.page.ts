@@ -10,8 +10,10 @@ import {
   IonLabel,
   IonInput,
   IonButton,
-  IonNote
+  IonNote,
+  NavController,
 } from '@ionic/angular/standalone';
+import { AccesoService } from '../servicios/acceso.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -29,35 +31,83 @@ import {
     IonLabel,
     IonInput,
     IonButton,
-    IonNote
+    IonNote,
   ],
 })
 export class EditProfilePage implements OnInit {
-inputName: string = "";
-inputSurename: string = "";
-inputEmail: string = "";
-inputPassword: string = "";
-inputCPassword: string  = "";
-msg: string="";
+  identificationUser: string = '';
+  inputName: string = '';
+  inputSurename: string = '';
+  inputEmail: string = '';
+  inputPassword: string = '';
+  inputCPassword: string = '';
+  msg: string = '';
+
+  constructor(
+    protected servicio: AccesoService,
+    private navCtrl: NavController
+  ) {}
+
+  ngOnInit() {
+    this.loadInfoUser();
+  }
+
+  loadInfoUser() {
+    const res = this.servicio.getInfoUserSession().then((res) => {
+       if (res) {
+        this.identificationUser = res.identificationUser || '';
+        this.inputName = res.nameUser || '';
+        this.inputSurename = res.surenameUser || '';
+        this.inputEmail = res.emailUser || '';
+        this.inputPassword = res.passwordUser || '';
+        this.inputCPassword = res.passwordUser || '';
+      }
+    });
+  }
 
 
-  constructor() {}
+  vpassword() {
+    if (this.inputPassword != this.inputCPassword) {
+      this.msg = 'The password are diferent';
+    } else {
+      this.msg = '';
+    }
+  }
 
-  ngOnInit() {}
+  cancel() {
+    this.navCtrl.navigateBack('/menu');
+  }
 
-
-
-
-
-
-  vpassword(){}
-  Cancel(){}
-
-  updateInfo(){}
-
-cancel(){}
-
-
+  updateInfo() {
+    let datos = {
+      op: 'update',
+      ci_persona: this.identificationUser,
+      nom_persona: this.inputName,
+      ape_persona: this.inputSurename,
+      correo_persona: this.inputEmail,
+      clave_persona: this.inputPassword,
+    };
+    console.log('datos to update: ' + JSON.stringify(datos));
+    this.servicio
+      .postData(datos)
+      .then(async (res) => {
+        const data: any = res;
+        if (data.success) {
+          this.servicio.updateSession('nameUser', datos.nom_persona);
+          this.servicio.updateSession('surenameUser', datos.ape_persona);
+          this.servicio.updateSession('emailUser', datos.correo_persona);
+          this.servicio.updateSession('passwordUser', datos.clave_persona);
+          this.servicio.showToast(data.message, 2000);
+          this.navCtrl.navigateBack('/menu');
+        } else {
+          this.servicio.showToast(data.message, 2000);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+      this.loadInfoUser();
+  }
 
   //-----End
 }

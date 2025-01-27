@@ -65,11 +65,13 @@ export class HomePage {
     try {
       const res: any = await this.servicio.postData(datos);
         if (res.success) {
-        //this.servicio.showToast("conexion satisfactoria", 2000);
-        this.servicio.createSession('usuario', res.data.ci_persona);
-        this.servicio.createSession('nombre', res.data.nom_persona);
-         this.servicio.createSession('correo', res.data.correo_persona);
-         this.navCtrl.navigateForward('/menu')
+        //create session info with all data
+        this.servicio.createSession('identificationUser', res.data.ci_persona);
+        this.servicio.createSession('nameUser', res.data.nom_persona);
+        this.servicio.createSession('surenameUser', res.data.ape_persona);
+        this.servicio.createSession('emailUser', res.data.correo_persona);
+        this.servicio.createSession('passwordUser', res.data.clave_persona);
+        this.navCtrl.navigateForward('/menu')
       } else {
         this.servicio.showToast(res.message, 2000);
       }
