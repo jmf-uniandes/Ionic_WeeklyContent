@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -15,12 +15,11 @@ import {
   LoadingController,
   IonLoading,
   NavController,
-  ModalController
+  ModalController,
 } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { AccesoService } from '../servicios/acceso.service';
-import {AccountPage} from '../account/account.page';
-
+import { AccountPage } from '../account/account.page';
 
 @Component({
   selector: 'app-home',
@@ -43,16 +42,27 @@ import {AccountPage} from '../account/account.page';
     FormsModule,
   ],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   txt_usuario: string = '';
   txt_clave: string = '';
-  msgWS: string='';
+  msgWS: string = '';
   constructor(
     private loadingCtrl: LoadingController,
     private servicio: AccesoService,
     private navCtrl: NavController,
     private modalCtrl: ModalController
   ) {}
+
+  ngOnInit() {
+    this.restartInterface();
+  }
+
+  restartInterface() {
+    this.txt_clave = '';
+    this.txt_clave = '';
+    this.msgWS = '';
+    this.servicio.clearSession();
+  }
 
   async login() {
     let datos = {
@@ -64,14 +74,14 @@ export class HomePage {
 
     try {
       const res: any = await this.servicio.postData(datos);
-        if (res.success) {
+      if (res.success) {
         //create session info with all data
         this.servicio.createSession('identificationUser', res.data.ci_persona);
         this.servicio.createSession('nameUser', res.data.nom_persona);
         this.servicio.createSession('surenameUser', res.data.ape_persona);
         this.servicio.createSession('emailUser', res.data.correo_persona);
         this.servicio.createSession('passwordUser', res.data.clave_persona);
-        this.navCtrl.navigateForward('/menu')
+        this.navCtrl.navigateForward('/menu');
       } else {
         this.servicio.showToast(res.message, 2000);
       }
@@ -80,16 +90,25 @@ export class HomePage {
     }
   }
 
- async createUser() {
-  console.log('createUser');
+  async createUser() {
+    console.log('createUser');
     const modal = await this.modalCtrl.create({
       component: AccountPage,
     });
     return await modal.present();
   }
 
-  recoverPassword() {}
+  recoverPassword() {
+    
+    this.navCtrl.navigateForward('/recoverypass');
+  }
+
+
+
+
+
   async showLoading() {
+    
     const loading = await this.loadingCtrl.create({
       message: 'Dismissing after 3 seconds...',
       duration: 3000,
@@ -97,4 +116,7 @@ export class HomePage {
 
     loading.present();
   }
+
+ 
+
 }

@@ -11,6 +11,11 @@ import {
   IonButton,
   IonItem,
   ModalController,
+  IonItemGroup,
+  IonItemDivider,
+  IonSelect,
+  IonSelectOption,
+  IonList,
 } from '@ionic/angular/standalone';
 import { AccesoService } from '../servicios/acceso.service';
 
@@ -30,6 +35,11 @@ import { AccesoService } from '../servicios/acceso.service';
     IonInput,
     IonButton,
     IonItem,
+    IonItemGroup,
+    IonItemDivider,
+    IonSelect,
+    IonSelectOption,
+    IonList,
   ],
 })
 export class AccountPage implements OnInit {
@@ -40,13 +50,18 @@ export class AccountPage implements OnInit {
   txt_clave: string = '';
   txt_cclave: string = '';
   msg: string = '';
+  securityQuestionid: string = '';
+  securityAnswer: string = '';
+  questions: { id: string; question: string }[] = [];
 
   constructor(
     private servicio: AccesoService,
     private modalCtrl: ModalController
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.loadQuestions();
+  }
 
   vclave() {
     if (this.txt_clave != this.txt_cclave) {
@@ -63,7 +78,9 @@ export class AccountPage implements OnInit {
       this.txt_surename !== '' &&
       this.txt_correo !== '' &&
       this.txt_clave !== '' &&
-      this.txt_cclave !== ''
+      this.txt_cclave !== '' &&
+      this.securityQuestionid !== null &&
+      this.securityAnswer !== ''
     ) {
       let datos = {
         op: 'insert',
@@ -72,6 +89,8 @@ export class AccountPage implements OnInit {
         ape_persona: this.txt_surename,
         correo_persona: this.txt_correo,
         clave_persona: this.txt_clave,
+        pregunta_secreta_id: this.securityQuestionid,
+        respuesta_secreta: this.securityAnswer,
       };
       console.log('datos to insert: ' + JSON.stringify(datos));
       this.servicio
@@ -96,8 +115,6 @@ export class AccountPage implements OnInit {
     this.modalCtrl.dismiss();
   }
 
-
-
   // verify in the bbdd if the id exist previously
   async exitsIDnumber() {
     let data = {
@@ -116,5 +133,48 @@ export class AccountPage implements OnInit {
     } catch (error) {
       //console.log( error.toString());
     }
+  }
+
+  async loadQuestions() {
+    let data = {
+      op: 'getQuestions',
+    };
+    try {
+      const res: any = await this.servicio.postData(data);
+      if (res.success) {
+        const questions = res.data.map((item: any) => ({
+          id: item.id_question,
+          question: item.secretQuestions,
+        }));
+        this.questions = questions;
+
+        await this.servicio.createSession('questions', questions);
+        
+        console.log('Preguntas obtenidas satisfactoriamente:', questions);
+      }else {
+        console.log('Error al obtener preguntas:', res.message);
+      }
+    }
+    catch (error) {
+      console.log(error);
+    }
+
+
+
+    //this.servicio.postData(data).then(async (result) => {
+    //  const response: any = result;
+    //  console.log('result message from server:' + response.msg.toString());
+      // if (response.success) {
+      //   const questions = response.data.map((item: any) => ({
+      //     id: item.id_question,
+      //     question: item.secretQuestions,
+      //   }));
+      //   await this.servicio.createSession('questions', questions);
+      //   console.log('Preguntas almacenadas satisfactoriamente:', questions);
+      //   this.questions = questions;
+      // } else {
+      //   console.log('Error al obtener preguntas:', response.message);
+      // }
+    //});
   }
 }
