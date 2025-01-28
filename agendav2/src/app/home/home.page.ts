@@ -1,11 +1,16 @@
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent,  ModalController, NavController } from '@ionic/angular/standalone';
+import { AccesoService } from './../servicio/acceso.service';
+import { RclavePage } from '../rclave/rclave.page';
+import { CuentaPage } from '../cuenta/cuenta.page';
+
+
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent],
+  imports: [IonHeader, IonToolbar, IonTitle, IonContent, NavController],
 })
 export class HomePage {
   txt_usuario:string="";
